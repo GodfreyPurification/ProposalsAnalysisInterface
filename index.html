@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Proposal Analysis</title>
+</head>
+<body>
+    <h1>Welcome to Funding Proposal Analysis</h1>
+    {% if session.logged_in %}
+        <p>Logged in | <a href="{{ url_for('logout') }}">Logout</a></p>
+        <a href="{{ url_for('analyze') }}">Go to Analysis</a>
+    {% else %}
+        <form method="post" action="{{ url_for('login') }}">
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+</body>
+</html>

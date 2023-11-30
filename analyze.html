@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding Proposal Analysis</title>
+    {{ dropzone.load() }}
+</head>
+<body>
+    <h1>Proposal Analysis</h1>
+    {% if 'user_email' in session %}
+        <p>Logged in as {{ session['user_email'] }} | <a href="{{ url_for('logout') }}">Logout</a></p>
+        <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <label for="file">Upload Word File:</label>
+            {{ dropzone.create(action_view='upload_view') }}
+            <br>
+            <label for="proposal_details">Proposal Details:</label>
+            <textarea name="proposal_details" id="proposal_details" rows="4" required></textarea>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% if chatgpt_response %}
+            <div>
+                <h3>ChatGPT Analysis:</h3>
+                <p>{{ chatgpt_response }}</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>You need to be logged in to access this page.</p>
+    {% endif %}
+</body>
+</html>
